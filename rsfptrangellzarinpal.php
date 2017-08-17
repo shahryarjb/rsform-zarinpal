@@ -86,8 +86,9 @@ class plgSystemRSFPTrangellZarinpal extends JPlugin {
 				$resultStatus = abs($result->Status); 
 				if ($resultStatus == 100) {
 					// Header('Location: https://sandbox.zarinpal.com/pg/StartPay/'.$result->Authority);
-					if (intval(RSFormProHelper::getConfig('trangellzarinpal.zaringate')) == 0){ 
+					if (RSFormProHelper::getConfig('trangellzarinpal.zaringate') == 0) { 
 						$app->redirect('https://www.zarinpal.com/pg/StartPay/'.$result->Authority); 
+					}
 					else {
 						$app->redirect('https://www.zarinpal.com/pg/StartPay/'.$result->Authority.'/ZarinGate'); 
 					}
@@ -144,12 +145,7 @@ class plgSystemRSFPTrangellZarinpal extends JPlugin {
 			){
 				if ($status == 'OK') {
 					try {
-						if (intval(RSFormProHelper::getConfig('trangellzarinpal.zaringate')) == 0){ 
-							$client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']); 
-						}
-						else {
-							$client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl/ZarinGate', ['encoding' => 'UTF-8']); 
-						}
+						$client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']); 
 						//$client = new SoapClient('https://sandbox.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']); // for local
 
 						$result = $client->PaymentVerification(

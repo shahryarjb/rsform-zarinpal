@@ -5,7 +5,7 @@
  * @subpackage  com_Rsfrom
  * @subpackage 	trangell_Zarinpal
  * @copyright   trangell team => https://trangell.com
- * @copyright   Copyright (C) 20016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // no direct access
@@ -85,8 +85,13 @@ class plgSystemRSFPTrangellZarinpal extends JPlugin {
 				
 				$resultStatus = abs($result->Status); 
 				if ($resultStatus == 100) {
-					// Header('Location: https://sandbox.zarinpal.com/pg/StartPay/'.$result->Authority); 
-					$app->redirect('https://www.zarinpal.com/pg/StartPay/'.$result->Authority); 
+					// Header('Location: https://sandbox.zarinpal.com/pg/StartPay/'.$result->Authority);
+					if (RSFormProHelper::getConfig('trangellzarinpal.zaringate') == 0) { 
+						$app->redirect('https://www.zarinpal.com/pg/StartPay/'.$result->Authority); 
+					}
+					else {
+						$app->redirect('https://www.zarinpal.com/pg/StartPay/'.$result->Authority.'/ZarinGate'); 
+					}
 				} else {
 					$msg= $this->getGateMsg('error'); 
 					$link = JURI::root() . 'index.php?option=com_rsform&formId=' . $formId;
@@ -197,6 +202,10 @@ class plgSystemRSFPTrangellZarinpal extends JPlugin {
 				<tr>
 					<td width="200" style="width: 200px;" align="right" class="key"><label for="api"><?php echo 'مرچند کد'; ?></label></td>
 					<td><input type="text" name="rsformConfig[trangellzarinpal.api]" value="<?php echo RSFormProHelper::htmlEscape(RSFormProHelper::getConfig('trangellzarinpal.api')); ?>" size="100" maxlength="64"></td>
+				</tr>
+				<tr>
+					<td width="200" style="width: 200px;" align="right" class="key"><label for="zaringate"><?php echo 'درگاه زرین گیت'; ?></label></td>
+					<td><?php echo JHTML::_('select.booleanlist', 'rsformConfig[trangellzarinpal.zaringate]' , '' , RSFormProHelper::htmlEscape(RSFormProHelper::getConfig('trangellzarinpal.zaringate')));?></td>
 				</tr>
 				<tr>
 					<td width="200" style="width: 200px;" align="right" class="key"><label for="tax.value"><?php echo 'مقدار مالیات'; ?></label></td>

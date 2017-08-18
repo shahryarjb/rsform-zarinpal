@@ -1,5 +1,6 @@
 INSERT IGNORE INTO `#__rsform_config` (`SettingName`, `SettingValue`) VALUES
 ('trangellzarinpal.api', ''),
+('trangellzarinpal.zaringate', '0'),
 ('trangellzarinpal.tax.value', '');
 
 INSERT IGNORE INTO `#__rsform_component_types` (`ComponentTypeId`, `ComponentTypeName`) VALUES (200, 'trangellzarinpal');
